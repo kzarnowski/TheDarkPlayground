@@ -1,0 +1,10 @@
+{
+  "worldWidth" : 30,
+  "worldHeight" : 30,
+  "jungleRatio" : 0.2,
+  "startEnergy" : 20.0,
+  "moveEnergy" : 1.0,
+  "grassEnergy" : 15.0,
+  "ancestors" : 20,
+  "totalTime" : 10000
+}
