@@ -44,7 +44,6 @@ public class Genotype {
             this.genes[mutatedGene] = (gen1.genes[mutatedGene] + gen2.genes[mutatedGene])%8;
         }
 
-        Arrays.sort(this.genes);
         this.repair();
     }
 
@@ -58,7 +57,6 @@ public class Genotype {
         for (int i = 0; i < size; i++) {
             genes[i] = (int) (Math.random() * (numOfGenes));
         }
-        Arrays.sort(genes);
     }
 
     public void repair() {
@@ -87,8 +85,6 @@ public class Genotype {
                 }
             }
         }
-
-        Arrays.sort(genes);
     }
 
     @Override

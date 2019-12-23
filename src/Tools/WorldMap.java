@@ -25,7 +25,8 @@ public class WorldMap implements IPositionChangeObserver {
     public LinkedList<Animal> animalsList;
     public LinkedList<Grass> grassList;
     public MapVisualizer mapVisualizer = new MapVisualizer(this);
-    //public Multimap<Vector2d, Animal> animalsMulti = ArrayListMultimap.create();
+
+    private int numOfDeaths;
 
 
     public WorldMap (int worldWidth, int worldHeight, double jungleRatio, double startEnergy, double moveEnergy, double grassEnergy) {
@@ -51,11 +52,15 @@ public class WorldMap implements IPositionChangeObserver {
         jungleLowerLeft = new Vector2d(xMin, yMin);
         jungleUpperRight = new Vector2d(xMin + jungleWidth, yMin+jungleHeight);
 
-        System.out.println(jungleWidth + " " + jungleHeight);
+        this.numOfDeaths = 0;
 
     }
 
     //Getters
+    public Vector2d getLowerLeft() { return lowerLeft;}
+    public Vector2d getUpperRight() { return upperRight;}
+    public Vector2d getJungleUpperRight() { return jungleUpperRight;}
+    public Vector2d getJungleLowerLeft() { return jungleLowerLeft;}
     public int getWorldWidth() { return this.worldWidth; }
     public int getWorldHeight() { return this.worldHeight; }
     public int getJungleWidth() { return this.jungleWidth; }
@@ -68,7 +73,9 @@ public class WorldMap implements IPositionChangeObserver {
     public LinkedList<Grass> getGrass(){
         return grassList;
     }
-
+    public Map<Vector2d, Grass> getGrassMap() { return grassMap; }
+    public Map<Vector2d, LinkedList<Animal>> getAnimalsMap() { return animalsMap; }
+    public int getNumOfDeaths() { return numOfDeaths; }
 
 
     public Vector2d crossBounds (Vector2d position) {
@@ -89,6 +96,10 @@ public class WorldMap implements IPositionChangeObserver {
         }
 
         return result;
+    }
+
+    public boolean isInJungle(Vector2d position) {
+        return (position.follows(jungleLowerLeft) && position.precedes(jungleUpperRight));
     }
 
     public boolean addAnimal (Animal an, Vector2d pos) {
@@ -112,10 +123,6 @@ public class WorldMap implements IPositionChangeObserver {
         Vector2d p = crossBounds(pos);
         LinkedList<Animal> tmp = animalsMap.get(p);
         if (tmp == null || tmp.size() == 0) {
-            System.out.println("Blad przy usuwaniu " + an.getPosition().toString());
-            System.out.println(animalsMap.toString());
-            System.out.println(animalsList.toString());
-            System.out.println(this.toString());
             throw new IllegalArgumentException("There is no animal on this position.");
         }
         else {
@@ -183,7 +190,8 @@ public class WorldMap implements IPositionChangeObserver {
                     if (parent1.getEnergy() >= this.multiplyEnergy && parent2.getEnergy() >= this.multiplyEnergy) {
                         Animal child = parent1.multiply(parent2);
                         children.add(child);
-
+                        parent1.oneMoreChild();
+                        parent2.oneMoreChild();
                     }
 
                 }
@@ -216,18 +224,22 @@ public class WorldMap implements IPositionChangeObserver {
         }
     }
 
-    public void removeDeadAnimals() {
-
+    public int removeDeadAnimals() {
+        //returns summed up lifetime of dying animals
+        int totalLifeTime = 0;
         LinkedList<Animal> l = getAnimals();
         for (int i = 0; i < l.size(); i++) {
             Animal a = animalsList.get(i);
             if (a.getEnergy() == 0) {
-                System.out.println("Dead at: " + a.getPosition() + ". ");
+                totalLifeTime += a.getAge();
+                this.numOfDeaths += 1;
+                System.out.println("Death at: " + a.getPosition() + ". ");
                 removeAnimal(a, a.getPosition());
                 a.removeObserver(this);
                 animalsList.remove(a);
             }
         }
+        return totalLifeTime;
     }
 
     public void growGrass(){
@@ -239,7 +251,7 @@ public class WorldMap implements IPositionChangeObserver {
         for (int i=0; i<jungleSearchLimit; i++) {
             Vector2d randField = new Vector2d((int)(Math.random()*jungleWidth), (int)(Math.random()*jungleHeight))
                     .add(jungleLowerLeft);
-            if (!grassMap.containsKey(randField)) {
+            if (!grassMap.containsKey(randField) && !animalsMap.containsKey(randField)) {
                 Grass grown = new Grass(randField);
                 addGrass(grown);
                 break;
@@ -249,35 +261,13 @@ public class WorldMap implements IPositionChangeObserver {
         //steppe
         for (int i=0; i<steppeSearchLimit; i++) {
             Vector2d randField = new Vector2d((int)(Math.random()*worldWidth), (int)(Math.random()*worldHeight));
-            if (!grassMap.containsKey(randField)) {
+            if (!grassMap.containsKey(randField) && !animalsMap.containsKey(randField)) {
                 Grass grown = new Grass(randField);
                 addGrass(grown);
                 break;
             }
         }
     }
-
-    /*public void nextDay() {
-        for (LinkedList<Animal> aL : animalsMap.values()) {
-            if (aL != null && aL.size() >= 1) {
-                for (Animal an : aL) {
-                    an.changeEnergy(-this.moveEnergy);
-                    an.getOlder();
-                }
-            }
-        }
-    }*/
-
-    public Object objectAt(Vector2d position){
-        //specify that one
-        if (animalsMap.containsKey(position)){
-            return animalsMap.get(position);
-        }
-        if (grassMap.containsKey(position)){
-            return grassMap.get(position);
-        }
-        return null;
-    };
 
 
     @Override

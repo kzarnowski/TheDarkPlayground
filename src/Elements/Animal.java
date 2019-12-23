@@ -14,6 +14,7 @@ public class Animal implements IWorldMapElement, IObservable{
     private Genotype genes;
     private double energy;
     private int age;
+    private int numOfChildren;
 
 
     public Animal (WorldMap map, Vector2d initialPosition, double energy) {
@@ -23,6 +24,7 @@ public class Animal implements IWorldMapElement, IObservable{
         this.energy = energy;
         this.genes = new Genotype();
         this.age = 0;
+        this.numOfChildren = 0;
     }
 
     public Animal (WorldMap map, Vector2d childPosition, double childEnergy, Genotype childGenotype) {
@@ -32,15 +34,17 @@ public class Animal implements IWorldMapElement, IObservable{
         this.energy = childEnergy;
         this.genes = childGenotype;
         this.age = 0;
+        this.numOfChildren = 0;
     }
 
     //Getters
     public Vector2d getPosition(){
         return this.position;
     }
-    public Direction getOrientation() { return this.orientation;};
-    public Genotype getGenes() { return this.genes;};
+    public Direction getOrientation() { return this.orientation;}
+    public Genotype getGenotype() { return this.genes;}
     public int getAge() { return this.age; }
+    public int getNumOfChildren() { return numOfChildren; }
 
     public double getEnergy() {
         BigDecimal tmp = new BigDecimal(this.energy);
@@ -82,12 +86,15 @@ public class Animal implements IWorldMapElement, IObservable{
         Vector2d oldPosition = this.getPosition();
         this.position = this.position.add(this.orientation.toUnitVector());
         this.position = this.map.crossBounds(this.position); //check if an animal crossed bounds
-        //this.positionChanged(oldPosition, this.getPosition());
         this.map.updatePosition(this, oldPosition, this.getPosition());
     }
 
     public void getOlder() {
         this.age += 1;
+    }
+
+    public void oneMoreChild() {
+        this.numOfChildren += 1;
     }
 
 
