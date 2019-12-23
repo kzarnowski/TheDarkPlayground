@@ -3,9 +3,6 @@ package Tools;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -17,14 +14,15 @@ public class JSON {
     public final Double moveEnergy;
     public final Double grassEnergy;
     public final Integer ancestors;
-    public final Integer totalTime;
+    public final Integer simulationTime;
+    public final Integer animationSpeed;
 
-    //public final Integer days;
-    //public final Integer refresh;
 
     public JSON(){
         this("parameters.json");
     }
+
+    //reading simulation parameters from json file
 
     public JSON(String fileName) {
         Integer worldWidth = null;
@@ -34,9 +32,8 @@ public class JSON {
         Double moveEnergy = null;
         Double grassEnergy = null;
         Integer ancestors = null;
-        Integer totalTime = null;
-        //Integer refresh = null;
-
+        Integer simulationTime = null;
+        Integer animationSpeed = null;
 
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader(fileName)) {
@@ -48,8 +45,8 @@ public class JSON {
             moveEnergy = (Double)jsonObject.get("moveEnergy");
             grassEnergy = (Double)jsonObject.get("grassEnergy");
             ancestors = ((Long)(jsonObject.get("ancestors"))).intValue();
-            totalTime = ((Long) jsonObject.get("totalTime")).intValue();
-            //refresh = Integer.parseInt((String) jsonObject.get("refresh"));
+            simulationTime = ((Long) jsonObject.get("simulationTime")).intValue();
+            animationSpeed = ((Long)(jsonObject.get("animationSpeed(1-5)"))).intValue();
 
         } catch (IOException | ParseException e) {
             e.printStackTrace();
@@ -63,9 +60,8 @@ public class JSON {
             this.moveEnergy = moveEnergy;
             this.grassEnergy = grassEnergy;
             this.ancestors = ancestors;
-            this.totalTime = totalTime;
-            //this.days = days;
-            //this.refresh = refresh;
+            this.simulationTime = simulationTime;
+            this.animationSpeed = animationSpeed;
         }
 
 

@@ -15,20 +15,20 @@ public class Playground {
 
     private WorldMap map;
     private int ancestors;
-    private int totalTime;
+    private int simulationTime;
     private int day = 0;
 
     private int totalLifeTime;
-    private int refreshTime = 50;
+    private int refreshTime;
 
     public Playground() {
+        //setting simulation parameters from parameters.json file
         JSON parameters = new JSON();
-
         this.map = new WorldMap(parameters.worldWidth, parameters.worldHeight, parameters.jungleRatio,
                 parameters.startEnergy, parameters.moveEnergy, parameters.grassEnergy);
         this.ancestors = parameters.ancestors;
-        this.totalTime = parameters.totalTime;
-
+        this.simulationTime = parameters.simulationTime;
+        this.refreshTime = 250 / parameters.animationSpeed;
         this.totalLifeTime = 0;
 
         ArrayList<Animal> elements = new ArrayList<>();
@@ -45,10 +45,8 @@ public class Playground {
     }
 
 
-    //Getters
-    public WorldMap getWorldMap() { return map; }
-
     public void nextDay() {
+        //process all events taking place during one day
         totalLifeTime += map.removeDeadAnimals();
         map.moveAll();
         map.eating();
@@ -67,7 +65,8 @@ public class Playground {
     }
 
     public void startSimulation() throws InterruptedException {
-        System.out.println("SimulationTime: " + totalTime);
+        //map visualization
+        System.out.println("SimulationTime: " + simulationTime);
         JFrame frame = new JFrame();
         frame.setLayout(new GridLayout(1,2));
         frame.setSize(1280,720); //1600x840
@@ -77,7 +76,8 @@ public class Playground {
         frame.setVisible(true);
         frame.setLayout(new GridLayout());
 
-        JPanel infoPanel = new JPanel();
+        //statistics visualization
+        JPanel stats = new JPanel();
         JLabel dayCount = new JLabel("Day: " + this.day);
         JLabel animalsCount = new JLabel("Animals: " + getNumOfAnimals());
         JLabel grassCount = new JLabel("Grass: " + getNumOfGrass());
@@ -86,26 +86,25 @@ public class Playground {
         JLabel avgNumOfChildren = new JLabel("Average number of children: " + getAvgNumOfChildren());
         JLabel numOfDeaths = new JLabel( "Number of deaths: 0");
         JLabel avgLifeTime = new JLabel("Average lifetime: " + getAvgLifeTime());
-        //JButton pause = new JButton("Start / Stop");
 
-        infoPanel.setSize((int) (0.5 * frame.getWidth()),500);
-        //infoPanel.add(pause);
-        infoPanel.add(dayCount);
-        infoPanel.add(animalsCount);
-        infoPanel.add(grassCount);
-        infoPanel.add(dominantGenotype);
-        infoPanel.add(avgEnergy);
-        infoPanel.add(avgNumOfChildren);
-        infoPanel.add(numOfDeaths);
-        infoPanel.add(avgLifeTime);
-        infoPanel.setLayout(new GridLayout(30, 1));
-        infoPanel.setVisible(true);
+        stats.add(dayCount);
+        stats.add(animalsCount);
+        stats.add(grassCount);
+        stats.add(dominantGenotype);
+        stats.add(avgEnergy);
+        stats.add(avgNumOfChildren);
+        stats.add(numOfDeaths);
+        stats.add(avgLifeTime);
+        stats.setLayout(new GridLayout(30, 1));
+        stats.setVisible(true);
 
-        frame.add(infoPanel);
+        frame.add(stats);
+
 
         java.util.concurrent.TimeUnit.SECONDS.sleep(2);
 
-        for (int i = 1; i <= totalTime; i++){
+        for (int i = 1; i <= simulationTime; i++){
+            //here is where actual simulation begins
             this.nextDay();
             panel.repaint();
             dayCount.setText("Day: " + this.day);
@@ -114,9 +113,9 @@ public class Playground {
             dominantGenotype.setText("Dominant genotype: " + getDominantGenotype());
             avgEnergy.setText("Average energy: " + getAvgEnergy());
             avgNumOfChildren.setText("Average number of children: " + getAvgNumOfChildren());
-            java.util.concurrent.TimeUnit.MILLISECONDS.sleep(this.refreshTime);
             numOfDeaths.setText("Number of deaths: " + map.getNumOfDeaths());
             avgLifeTime.setText("Average lifetime: " + getAvgLifeTime());
+            java.util.concurrent.TimeUnit.MILLISECONDS.sleep(this.refreshTime);
         }
     }
 

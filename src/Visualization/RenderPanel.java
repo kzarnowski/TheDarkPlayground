@@ -70,6 +70,7 @@ public class RenderPanel extends JPanel {
         for (int x = 0; x < this.map.getWorldWidth(); x++){
             for (int y = 0; y < this.map.getWorldHeight(); y++){
                 Vector2d position = new Vector2d(x,y);
+                //draw background
                 if (map.isInJungle(position)){
                     g.drawImage(this.jungle, x * widthScale, y * heightScale, this);
                 }
@@ -77,6 +78,7 @@ public class RenderPanel extends JPanel {
                     g.drawImage(this.steppe, x * widthScale, y * heightScale, this);
                 }
 
+                //draw grass
                 if (map.getGrassMap().containsKey(position) && map.isInJungle(new Vector2d(x,y))){
                     g.drawImage(this.jungleGrass, x * widthScale, y * heightScale, this);
                 }
@@ -84,22 +86,24 @@ public class RenderPanel extends JPanel {
                     g.drawImage(this.steppeGrass, x * widthScale, y * heightScale, this);
                 }
 
+                //draw animals
                 if (map.getAnimalsMap().containsKey(position)){
                     int sumEnergy = 0;
                     for (Animal an : map.getAnimalsMap().get(position)) {
                         sumEnergy += an.getEnergy();
                     }
 
+                    //5 different colors due to energy level
                     if (sumEnergy <= map.getStartEnergy()/2) {
                         g.drawImage(this.animal1, x * widthScale, y * heightScale, this);
                     }
                     else if (sumEnergy <= map.getStartEnergy()) {
                         g.drawImage(this.animal2, x * widthScale, y * heightScale, this);
                     }
-                    else if (sumEnergy <= map.getStartEnergy()*1.5) {
+                    else if (sumEnergy <= map.getStartEnergy()*2) {
                         g.drawImage(this.animal3, x * widthScale, y * heightScale, this);
                     }
-                    else if (sumEnergy <= map.getStartEnergy()*2.5) {
+                    else if (sumEnergy <= map.getStartEnergy()*3.5) {
                         g.drawImage(this.animal4, x * widthScale, y * heightScale, this);
                     }
                     else {

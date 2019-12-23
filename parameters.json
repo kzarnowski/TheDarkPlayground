@@ -5,6 +5,7 @@
   "startEnergy" : 20.0,
   "moveEnergy" : 1.0,
   "grassEnergy" : 15.0,
-  "ancestors" : 20,
-  "totalTime" : 10000
+  "ancestors" : 10,
+  "simulationTime" : 10000,
+  "animationSpeed(1-5)" : 3
 }

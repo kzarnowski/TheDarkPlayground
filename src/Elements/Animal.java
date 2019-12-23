@@ -82,7 +82,6 @@ public class Animal implements IWorldMapElement, IObservable{
 
 
     public void move() {
-        this.rotate((int)(Math.random()*8));
         Vector2d oldPosition = this.getPosition();
         this.position = this.position.add(this.orientation.toUnitVector());
         this.position = this.map.crossBounds(this.position); //check if an animal crossed bounds

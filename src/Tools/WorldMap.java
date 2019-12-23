@@ -103,7 +103,7 @@ public class WorldMap implements IPositionChangeObserver {
     }
 
     public boolean addAnimal (Animal an, Vector2d pos) {
-        //add new animal in the world
+        //add new animal in a map
         Vector2d p = crossBounds(pos);
         LinkedList<Animal> aL = animalsMap.get(p);
         if (aL == null) {
@@ -119,7 +119,7 @@ public class WorldMap implements IPositionChangeObserver {
     }
 
     public boolean removeAnimal (Animal an, Vector2d pos) {
-        //remove animal from the world
+        //remove animal from the map
         Vector2d p = crossBounds(pos);
         LinkedList<Animal> tmp = animalsMap.get(p);
         if (tmp == null || tmp.size() == 0) {
@@ -140,6 +140,7 @@ public class WorldMap implements IPositionChangeObserver {
     }
 
     public boolean addGrass (Grass g) {
+        //adding grass to a map
         if (grassMap.get(g.getPosition()) == null) {
             grassMap.put(g.getPosition(), g);
             grassList.add(g);
@@ -149,15 +150,16 @@ public class WorldMap implements IPositionChangeObserver {
     }
 
     public boolean moveAll(){
-
+        //randomly moving all animals by theirs genotype
         for (Animal an : animalsList) {
-            an.rotate((int) (Math.random() * 8));
+            an.rotate(an.getGenotype().getGenes()[(int) (Math.random() * 32)]);
             an.move();
         }
         return true;
     }
 
     public boolean place(IWorldMapElement element){
+        //adding element to the World
         Vector2d position = crossBounds(element.getPosition());
 
         if (element instanceof Grass) {
@@ -177,7 +179,7 @@ public class WorldMap implements IPositionChangeObserver {
     };
 
     public void multiplication() {
-
+        //multiplication for all animals on the map if they are at the same position
         ArrayList<Animal> children = new ArrayList<>();
         for ( LinkedList<Animal> aL : animalsMap.values()) {
             if (aL != null) {
@@ -198,6 +200,7 @@ public class WorldMap implements IPositionChangeObserver {
             }
         }
 
+        //adding child to the world
         for (Animal baby : children) {
             place((IWorldMapElement) baby);
             System.out.println("Child was born at: " + baby.getPosition().toString() + ". ");
@@ -205,11 +208,12 @@ public class WorldMap implements IPositionChangeObserver {
     }
 
     public void eating() {
-
+        //eating for all animals if they are on a position with grass
         LinkedList<Grass> eatenGrass = new LinkedList<>();
         for (Grass g : grassList) {
             LinkedList<Animal> hungryAnimals = animalsMap.get(g.getPosition());
             if(hungryAnimals != null && hungryAnimals.size() >= 1) {
+                //if there are more animals on one position, grass will be eaten by the one with the highest energy
                 hungryAnimals.sort(Comparator.comparing(Animal::getEnergy).reversed());
                 Animal mostHungry = hungryAnimals.getFirst();
                 mostHungry.changeEnergy(grassEnergy);
@@ -272,11 +276,13 @@ public class WorldMap implements IPositionChangeObserver {
 
     @Override
     public String toString() {
+        //old version of visualization
         return this.mapVisualizer.draw(lowerLeft, upperRight);
     }
 
     @Override
     public void updatePosition (Object an, Vector2d oldPosition, Vector2d newPosition) {
+        //changing animal's position on the map
         oldPosition = crossBounds(oldPosition);
         newPosition = crossBounds(newPosition);
         removeAnimal((Animal)an, oldPosition);
