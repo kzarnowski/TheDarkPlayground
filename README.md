@@ -41,4 +41,4 @@ rozmnażanie zwierząt (rozmnażają się zawsze dwa zwierzęta o najwyższej en
 dodanie nowych roślin do mapy.
 Oczywiście na początku symulacji na środku świata umieszczamy jedno lub kilka zwierząt (Adam/Ewa).
 
-![sample_screenshot](https://github.com/kzarnowski/TheDarkPlayground/blob/master/showcase.png?raw=true)
+![sample_screenshot](https://github.com/kzarnowski/TheDarkPlayground/blob/master/showcase/img.png)
