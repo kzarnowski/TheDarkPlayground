@@ -40,3 +40,5 @@ jedzenie (roślina jest zjadana przez zwierzę posiadające najwięcej energii l
 rozmnażanie zwierząt (rozmnażają się zawsze dwa zwierzęta o najwyższej energii na danym polu; jeśli występuje więcej zwierząt o tej samej energii, wybór jest losowy),
 dodanie nowych roślin do mapy.
 Oczywiście na początku symulacji na środku świata umieszczamy jedno lub kilka zwierząt (Adam/Ewa).
+
+![sample_screenshot](https://github.com/kzarnowski/TheDarkPlayground/blob/master/showcase.png?raw=true)
