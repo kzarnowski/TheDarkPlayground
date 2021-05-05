@@ -11,6 +11,8 @@ Nasze zwierzęta, które są roślinożercami, będą przemierzały ten świat w
 
 Rośliny będą wyrastały w losowych miejscach, ale ich koncentracja będzie większa w dżungli niż na stepie. Codziennie w naszym świecie pojawią się dwie nowe rośliny – jedna w każdej ze stref.
 
+![sample_screenshot](https://github.com/kzarnowski/TheDarkPlayground/blob/master/showcase/img.png)
+
 # Anatomia zwierzęcia
 
 
@@ -34,11 +36,12 @@ Urodzone zwierzę otrzymuje genotyp będący krzyżówką genotypów rodziców. 
 # Symulacja
 Symulacja każdego dnia składa się z kilku kolejnych akcji:
 
-usunięcie martwych zwierząt z mapy,
-skręt i przemieszczenie każdego zwierzęcia,
-jedzenie (roślina jest zjadana przez zwierzę posiadające najwięcej energii lub kilka najsilniejszych zwierząt, jeśli więcej niż jedno posiada taką samą, największą energię; w takim przypadku energia rośliny jest dzielona),
-rozmnażanie zwierząt (rozmnażają się zawsze dwa zwierzęta o najwyższej energii na danym polu; jeśli występuje więcej zwierząt o tej samej energii, wybór jest losowy),
-dodanie nowych roślin do mapy.
+1. usunięcie martwych zwierząt z mapy,
+2. skręt i przemieszczenie każdego zwierzęcia,
+3. jedzenie (roślina jest zjadana przez zwierzę posiadające najwięcej energii lub kilka najsilniejszych zwierząt, jeśli więcej niż jedno posiada taką samą, największą energię; w takim przypadku energia rośliny jest dzielona),
+4. rozmnażanie zwierząt (rozmnażają się zawsze dwa zwierzęta o najwyższej energii na danym polu; jeśli występuje więcej zwierząt o tej samej energii, wybór jest losowy),
+5. dodanie nowych roślin do mapy.
+6. 
 Oczywiście na początku symulacji na środku świata umieszczamy jedno lub kilka zwierząt (Adam/Ewa).
 
-![sample_screenshot](https://github.com/kzarnowski/TheDarkPlayground/blob/master/showcase/img.png)
+![sample_animation](https://github.com/kzarnowski/TheDarkPlayground/blob/master/showcase/showcase.gif)
