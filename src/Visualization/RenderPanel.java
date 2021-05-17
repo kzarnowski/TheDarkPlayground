@@ -39,15 +39,15 @@ public class RenderPanel extends JPanel {
         this.heightScale = height / map.getWorldHeight();
 
         try {
-            this.animal1 = ImageIO.read(new File("src/images/animal1.png"));
-            this.animal2 = ImageIO.read(new File("src/images/animal2.png"));
-            this.animal3 = ImageIO.read(new File("src/images/animal3.png"));
-            this.animal4 = ImageIO.read(new File("src/images/animal4.png"));
-            this.animal5 = ImageIO.read(new File("src/images/animal5.png"));
-            this.jungleGrass = ImageIO.read(new File("src/images/jungleGrass.png"));
-            this.steppeGrass = ImageIO.read(new File("src/images/steppeGrass.png"));
-            this.jungle = ImageIO.read(new File("src/images/jungle.png"));
-            this.steppe = ImageIO.read(new File("src/images/steppe.png"));
+            this.animal1 = ImageIO.read(new File("src/Images/animal1.png"));
+            this.animal2 = ImageIO.read(new File("src/Images/animal2.png"));
+            this.animal3 = ImageIO.read(new File("src/Images/animal3.png"));
+            this.animal4 = ImageIO.read(new File("src/Images/animal4.png"));
+            this.animal5 = ImageIO.read(new File("src/Images/animal5.png"));
+            this.jungleGrass = ImageIO.read(new File("src/Images/jungleGrass.png"));
+            this.steppeGrass = ImageIO.read(new File("src/Images/steppeGrass.png"));
+            this.jungle = ImageIO.read(new File("src/Images/jungle.png"));
+            this.steppe = ImageIO.read(new File("src/Images/steppe.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
